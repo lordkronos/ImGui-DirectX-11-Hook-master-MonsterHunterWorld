@@ -2,6 +2,7 @@
 #include "memory.h"
 #include "options.h"
 #include "GameBase.h"
+#include "Hacks.h"
 
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -37,8 +38,8 @@ bool unlgoldbool = false;
 bool SkyColorEnabled = false;
 bool bStamina = false;
 bool bCriticalDamage = false;
-bool bspeed = false;
-
+bool bResistance = false;
+bool bMaxSharpness = false;
 static int tab = 0;
 
 BaseAddies::Module Mod;
@@ -144,7 +145,7 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 
 
 		ImGui::SetNextWindowSize(ImVec2{ 325, 275 });
-		ImGui::Begin("Karss _TitanQ v1.0", &ShowMenu, ImGuiWindowFlags_NoResize);
+		ImGui::Begin("Kronos _MHunterWorld v1.2", &ShowMenu, ImGuiWindowFlags_NoResize);
 		if (ImGui::Button("Hacks", ImVec2(80, 28))) {
 			tab = 0;
 		}
@@ -183,44 +184,70 @@ HRESULT __stdcall hkPresent(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT 
 				//Memory::Patch((BYTE*)(GodMode), (BYTE*)"\xF3\x0F\x11\xB3\x50\x01\x00\x00", 8);
 			}
 
-		
+			ImGui::Separator();
 
 			ImGui::Checkbox("Player_UnlStamina", &bStamina);
 			if (bStamina)
 			{
+				Mod.Pl->PointerToStats->Ptr02->MaxStamina = 350;
+				Mod.Pl->PointerToStats->Ptr02->Stamina = 200;
 				Mod.LocalPlayer->StaminaRegenRate = 100;
 				
 		
 			}
 			else
 			{
+				Mod.Pl->PointerToStats->Ptr02->MaxStamina = 150;
+				Mod.Pl->PointerToStats->Ptr02->Stamina = 100;
 				Mod.LocalPlayer->StaminaRegenRate = 25;
 				
 			}
 			
+			ImGui::Separator();
+
 			ImGui::Checkbox("Player_CriticalDamage", &bCriticalDamage);
 			if (bCriticalDamage)
 			{
+				Mod.Pl->PointerToStats->Ptr->Attack = 350;
+				Mod.LocalPlayer->AntiCriticalDmg = 2;
 				Mod.LocalPlayer->CriticalDamage = 3.5;
 
 			}
 			else
 			{
+				
+				Mod.LocalPlayer->AntiCriticalDmg = 0.75;
 				Mod.LocalPlayer->CriticalDamage = 1.25;
 			}
+			ImGui::Separator();
 
-			ImGui::Checkbox("Player_Speed", &bspeed);
-			if (bspeed)
+
+			ImGui::Checkbox("Player_Resistance", &bResistance);
+			if (bResistance)
 			{
-				Mod.LocalPlayer->WalkMotionSpeed = 2.25;
-				Mod.LocalPlayer->RunMotionSpeed = 2.5;
+				Mod.Pl->PointerToStats->ArmorPtr->BonusArmor = 350;
+				Mod.Pl->PointerToStats->ArmorPtr->FireResistance = 25;
+				Mod.Pl->PointerToStats->ArmorPtr->IceResistance = 25;
+				Mod.Pl->PointerToStats->ArmorPtr->ThunderResistance = 25;
+				Mod.Pl->PointerToStats->ArmorPtr->WaterResistance = 25;
+				Mod.Pl->PointerToStats->ArmorPtr->DragonResistance = 25;
 			}
 			else
 			{
-				Mod.LocalPlayer->WalkMotionSpeed = 1.25;
-				Mod.LocalPlayer->RunMotionSpeed = 1.25;
+				
 			}
+			ImGui::Separator();
 
+			ImGui::Checkbox("Player_MaxSharpness", &bMaxSharpness);
+			if (bMaxSharpness)
+			{
+				MaxSharpness(100);
+			}
+			else
+			{
+
+			}
+			
 
 
 		}

@@ -114,11 +114,15 @@ char* PatternScan(char* pattern, char* mask)
 }
 
 // Declaring variables;
-char* GodMode = NULL;
+char* Sharpness = NULL;
 char* UnlimitedGold = NULL;
+
+
+
 
 void InitPattern()
 {
+	Sharpness = PatternScan("\x36\x01\x00\x00\x04", "xx?xx");
 	//GodMode = PatternScan("\xF3\x0F\x00\x00\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x0F\x28\x00\x00\x00\x48\x83\xC4\x00\x5B\xC3\xCC\xCC\xCC\xCC\xCC\xCC\xCC\xCC\xCC\xCC\x40", "xx??????x????xx???xxx?xxxxxxxxxxxxx");
 	//GodMode += 5; //
 
